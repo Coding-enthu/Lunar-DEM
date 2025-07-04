@@ -1,0 +1,7 @@
+
+{
+  "image_path": "data/moon_patch.jpg",
+  "sun_azimuth": 135,
+  "sun_elevation": 45,
+  "max_iterations": 100
+}

@@ -15,7 +15,7 @@ import os
 def ensure_dir(path):
     os.makedirs(path, exist_ok=True)
 
-def optimize_heightmap(observed_img, light_direction, max_iter=200, lambda_smooth=0.05):
+def optimize_heightmap(observed_img, light_direction, max_iter=200, lambda_smooth=0.1):
     H, W = observed_img.shape
     z0 = 0.01 * np.random.randn(H, W).astype(np.float32)
     z0_flat = z0.flatten()
@@ -54,7 +54,15 @@ def optimize_heightmap(observed_img, light_direction, max_iter=200, lambda_smoot
         iter_counter['i'] += 1
         return total_loss
 
-    result = minimize(loss_func, z0_flat, method='L-BFGS-B', options={'maxiter': max_iter})
+    result = minimize(
+    loss_func,
+    z0_flat,
+    method='L-BFGS-B',
+    options={
+        'maxiter': 15000,          # Optimization steps (gradient steps)
+        'maxfun': 500000,          # Function evaluations (F,G)
+        'disp': True
+    })
 
     if not result.success:
         print("Optimization failed:", result.message)

@@ -9,7 +9,7 @@ def compute_smoothness(z):
     dz_dy = np.diff(z, axis=0)
     return np.sum(dz_dx ** 2) + np.sum(dz_dy ** 2)
 
-def optimize_heightmap(observed_img, light_direction, max_iter=15000, lambda_smooth=0.05):
+def optimize_heightmap(observed_img, light_direction, max_iter=500000, lambda_smooth=0.05, z_initial=None):
     H, W = observed_img.shape
     z0 = (observed_img - np.mean(observed_img)) * 0.1  # better initial guess
     z0_flat = z0.flatten()
@@ -30,7 +30,7 @@ def optimize_heightmap(observed_img, light_direction, max_iter=15000, lambda_smo
         smoothness_loss = compute_smoothness(z)
         total_loss = photometric_loss + lambda_smooth * smoothness_loss
 
-        if iter_counter['i'] % 100 == 0:
+        if iter_counter['i'] % 10000 == 0:
             z_min, z_max = z.min(), z.max()
             print(f"[Iter {iter_counter['i']}] Total Loss: {total_loss:.6f}, Photometric: {photometric_loss:.6f}, Smoothness: {smoothness_loss:.6f}")
             print(f"Z range during iteration: {z_min} {z_max}")
@@ -51,7 +51,7 @@ def optimize_heightmap(observed_img, light_direction, max_iter=15000, lambda_smo
         method='L-BFGS-B',
         options={
             'maxiter': max_iter,
-            'maxfun': 500000,
+            'maxfun': 10000000,
             'disp': True
         }
     )

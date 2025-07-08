@@ -22,6 +22,7 @@ def preprocess_image(image_path, blur_ksize=3):
 # Optional: Show the image
 if __name__ == "__main__":
     processed = preprocess_image("images/lunar_sample.png")
+    print("Image min/max after preprocessing:", processed.min(), processed.max())
     plt.imshow(processed, cmap='gray')
     plt.title("Preprocessed Image")
     plt.show()

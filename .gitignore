@@ -2,4 +2,4 @@ __pycache__*
 venv/
 images/lunar_sample.png
 .DS_Store
-outputs/elevation_map.png
+outputs/
